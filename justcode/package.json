@@ -1,6 +1,6 @@
 {
-  "name": "just-code",
-  "displayName": "Just Code",
+  "name": "justcode",
+  "displayName": "JustCode",
   "description": "",
   "version": "0.0.1",
   "engines": {
@@ -14,7 +14,7 @@
   "contributes": {
     "commands": [
       {
-        "command": "just-code.helloWorld",
+        "command": "justcode.helloWorld",
         "title": "Hello World"
       }
     ]
