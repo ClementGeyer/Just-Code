@@ -18,17 +18,22 @@ exports.generateComment = void 0;
 const vscode = __webpack_require__(1);
 const axios_1 = __webpack_require__(3);
 const axios_retry_1 = __webpack_require__(43);
-const generateComment = async (fullCode, comment, language, accessToken) => {
+const generateComment = async (code
+// fullCode: string,
+// comment: string,
+// language: string,
+// accessToken: string
+) => {
     try {
-        const { data } = await axios_1.default.post("localhost:3001/generateSingleLineComment", {
-            full_code: fullCode,
-            comment: comment,
-            language: language,
-        }, {
-            headers: {
-                Authorization: `Token ${accessToken}`,
-            },
+        console.log('ouais');
+        const { data } = await axios_1.default.post("http://localhost:8080/generateSingleLineComment", {
+            code: code
+            // full_code: fullCode,
+            // comment: comment,
+            // language: language,
         });
+        console.log('ouais 2');
+        console.log(data);
         return data;
     }
     catch (err) {
@@ -8729,7 +8734,7 @@ function activate(context) {
             progress.report({
                 message: `Generating comments ...`,
             });
-            let data = await (0, api_1.generateComment)("zzz", "zzz", "zzz", "zzz");
+            let data = await (0, api_1.generateComment)("let disposable = vscode.commands.registerCommand('justcode.helloWorld', () => {");
             console.log(data);
         });
     });

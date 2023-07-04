@@ -3,26 +3,23 @@ import axios from "axios";
 import axiosRetry from "axios-retry";
 
 export const generateComment = async (
-    fullCode: string,
-    comment: string,
-    language: string,
-    accessToken: string
+  code: string
+    // fullCode: string,
+    // comment: string,
+    // language: string,
+    // accessToken: string
   ) => {
     try {
-      const { data } = await axios.post(
-        "localhost:3001/generateSingleLineComment",
-        {
-          full_code: fullCode,
-          comment: comment,
-          language: language,
-        },
-        {
-          headers: {
-            Authorization: `Token ${accessToken}`,
-          },
+      console.log('ouais')
+      const {data} = await axios.post("http://localhost:8080/generateSingleLineComment", { 
+          code: code
+          // full_code: fullCode,
+          // comment: comment,
+          // language: language,
         }
       );
-  
+      console.log('ouais 2')
+      console.log(data)
       return data;
     } catch (err: any) {
       // Figure out what went wrong

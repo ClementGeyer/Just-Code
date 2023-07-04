@@ -24,10 +24,8 @@ export function activate(context: vscode.ExtensionContext) {
 			progress.report({
 			  message: `Generating comments ...`,
 			});
-
-			let data = await generateComment("zzz","zzz","zzz","zzz");
+			let data = await generateComment("let disposable = vscode.commands.registerCommand('justcode.helloWorld', () => {");
 			console.log(data)
-
 		  })
 	});
 
