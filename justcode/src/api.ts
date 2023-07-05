@@ -10,7 +10,6 @@ export const generateComment = async (
     // accessToken: string
   ) => {
     try {
-      console.log('ouais')
       const {data} = await axios.post("http://localhost:8080/generateSingleLineComment", { 
           code: code
           // full_code: fullCode,
@@ -18,8 +17,6 @@ export const generateComment = async (
           // language: language,
         }
       );
-      console.log('ouais 2')
-      console.log(data)
       return data;
     } catch (err: any) {
       // Figure out what went wrong
