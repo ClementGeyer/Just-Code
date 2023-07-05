@@ -21,12 +21,24 @@ export function activate(context: vscode.ExtensionContext) {
 		vscode.window.withProgress({
 			location: vscode.ProgressLocation.Notification,
 		  }, async (progress) => {
+			
 			progress.report({
 			  message: `Generating comments ...`,
 			});
+
 			let data = await generateComment("let disposable = vscode.commands.registerCommand('justcode.helloWorld', () => {");
+			let activeEditor = vscode.window.activeTextEditor;
+
+			if (!activeEditor) {
+				return;
+			}
+
+			let text = activeEditor.document.getText();
+			console.log(text)
 			console.log(data)
-		  })
+		})
+
+		
 	});
 
 	context.subscriptions.push(disposable);

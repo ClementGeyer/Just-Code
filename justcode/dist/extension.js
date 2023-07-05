@@ -1,6 +1,63 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ([
-/* 0 */,
+/* 0 */
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.deactivate = exports.activate = void 0;
+// The module 'vscode' contains the VS Code extensibility API
+// Import the module and reference it with the alias vscode in your code below
+const vscode = __webpack_require__(1);
+const api_1 = __webpack_require__(2);
+// This method is called when your extension is activated
+// Your extension is activated the very first time the command is executed
+function activate(context) {
+    // Use the console to output diagnostic information (console.log) and errors (console.error)
+    // This line of code will only be executed once when your extension is activated
+    console.log('Congratulations, your extension "justcode" is now active!');
+    // The command has been defined in the package.json file
+    // Now provide the implementation of the command with registerCommand
+    // The commandId parameter must match the command field in package.json
+    let disposable = vscode.commands.registerCommand('justcode.helloWorld', () => {
+        // The code you place here will be executed every time your command is executed
+        // Display a message box to the user
+        // vscode.window.showInformationMessage('Hello World from JustCode!');
+        vscode.window.withProgress({
+            location: vscode.ProgressLocation.Notification,
+        }, (progress) => __awaiter(this, void 0, void 0, function* () {
+            progress.report({
+                message: `Generating comments ...`,
+            });
+            let data = yield (0, api_1.generateComment)("let disposable = vscode.commands.registerCommand('justcode.helloWorld', () => {");
+            let activeEditor = vscode.window.activeTextEditor;
+            if (!activeEditor) {
+                return;
+            }
+            let text = activeEditor.document.getText();
+            console.log(text);
+            console.log(data);
+        }));
+    });
+    context.subscriptions.push(disposable);
+}
+exports.activate = activate;
+// This method is called when your extension is deactivated
+function deactivate() { }
+exports.deactivate = deactivate;
+
+
+/***/ }),
 /* 1 */
 /***/ ((module) => {
 
@@ -9,31 +66,37 @@ module.exports = require("vscode");
 
 /***/ }),
 /* 2 */
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
 
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.generateComment = void 0;
 const vscode = __webpack_require__(1);
 const axios_1 = __webpack_require__(3);
 const axios_retry_1 = __webpack_require__(43);
-const generateComment = async (code
+const generateComment = (code
 // fullCode: string,
 // comment: string,
 // language: string,
 // accessToken: string
-) => {
+) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        console.log('ouais');
-        const { data } = await axios_1.default.post("http://localhost:8080/generateSingleLineComment", {
+        const { data } = yield axios_1.default.post("http://localhost:8080/generateSingleLineComment", {
             code: code
             // full_code: fullCode,
             // comment: comment,
             // language: language,
         });
-        console.log('ouais 2');
-        console.log(data);
         return data;
     }
     catch (err) {
@@ -45,7 +108,7 @@ const generateComment = async (code
             vscode.window.showErrorMessage(err.request.data);
         }
     }
-};
+});
 exports.generateComment = generateComment;
 
 
@@ -8696,58 +8759,20 @@ module.exports = error => !denyList.has(error && error.code);
 /******/ 		};
 /******/ 	
 /******/ 		// Execute the module function
-/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
 /******/ 	
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
 /******/ 	
 /************************************************************************/
-var __webpack_exports__ = {};
-// This entry need to be wrapped in an IIFE because it need to be in strict mode.
-(() => {
-"use strict";
-var exports = __webpack_exports__;
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.deactivate = exports.activate = void 0;
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
-const vscode = __webpack_require__(1);
-const api_1 = __webpack_require__(2);
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
-function activate(context) {
-    // Use the console to output diagnostic information (console.log) and errors (console.error)
-    // This line of code will only be executed once when your extension is activated
-    console.log('Congratulations, your extension "justcode" is now active!');
-    // The command has been defined in the package.json file
-    // Now provide the implementation of the command with registerCommand
-    // The commandId parameter must match the command field in package.json
-    let disposable = vscode.commands.registerCommand('justcode.helloWorld', () => {
-        // The code you place here will be executed every time your command is executed
-        // Display a message box to the user
-        // vscode.window.showInformationMessage('Hello World from JustCode!');
-        vscode.window.withProgress({
-            location: vscode.ProgressLocation.Notification,
-        }, async (progress) => {
-            progress.report({
-                message: `Generating comments ...`,
-            });
-            let data = await (0, api_1.generateComment)("let disposable = vscode.commands.registerCommand('justcode.helloWorld', () => {");
-            console.log(data);
-        });
-    });
-    context.subscriptions.push(disposable);
-}
-exports.activate = activate;
-// This method is called when your extension is deactivated
-function deactivate() { }
-exports.deactivate = deactivate;
-
-})();
-
-module.exports = __webpack_exports__;
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module is referenced by other modules so it can't be inlined
+/******/ 	var __webpack_exports__ = __webpack_require__(0);
+/******/ 	module.exports = __webpack_exports__;
+/******/ 	
 /******/ })()
 ;
 //# sourceMappingURL=extension.js.map
