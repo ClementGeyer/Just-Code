@@ -2,6 +2,8 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 import { generateComment } from './api';
+import { getContext } from './context';
+import { contextProvider } from './provider';
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -25,8 +27,7 @@ export function activate(context: vscode.ExtensionContext) {
 			progress.report({
 			  message: `Generating comments ...`,
 			});
-
-			let data = await generateComment("let disposable = vscode.commands.registerCommand('justcode.helloWorld', () => {");
+			
 			let activeEditor = vscode.window.activeTextEditor;
 
 			if (!activeEditor) {
@@ -34,14 +35,14 @@ export function activate(context: vscode.ExtensionContext) {
 			}
 
 			let text = activeEditor.document.getText();
-			console.log(text)
-			console.log(data)
+
+			//let data = await generateComment("let disposable = vscode.commands.registerCommand('justcode.helloWorld', () => {");
 		})
 
 		
 	});
 
-	context.subscriptions.push(disposable);
+	context.subscriptions.push(contextProvider, disposable);
 }
 
 // This method is called when your extension is deactivated
