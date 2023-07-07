@@ -2,8 +2,8 @@ import * as vscode from "vscode";
 
 export const contextProvider = vscode.languages.registerCompletionItemProvider(
     [
-    { language: "javascript" },
-    { language: "typescript" },
+      { language: "javascript" },
+      { language: "typescript" },
     ],
     {
         async provideCompletionItems(
@@ -12,10 +12,7 @@ export const contextProvider = vscode.languages.registerCompletionItemProvider(
             token: vscode.CancellationToken,
             context: vscode.CompletionContext
           ) {
-            console.log(document)
-            console.log(position)
-            console.log(token)
-            console.log(context)
+            console.log('provider')
 
             const linePrefix = document
             .lineAt(position)
@@ -45,16 +42,17 @@ export const contextProvider = vscode.languages.registerCompletionItemProvider(
                     "...",
                     vscode.CompletionItemKind.Text
                   );
-                  completion.detail = "Readable";
+                  console.log('ggwp')
+                  completion.detail = "JustCode";
                   completion.insertText = "";
                   completion.command = {
-                    command: "readable.insertInlineComment",
+                    command: "justcode.helloWorld",
                     title: "Insert Inline Comment",
                     arguments: [
                       {
-                        document: document,
-                        cursor: position,
-                        language: language,
+                        doc: document,
+                        curs: position,
+                        lang: language,
                       },
                     ],
                     tooltip: "Insert Inline Comment",
@@ -69,7 +67,7 @@ export const contextProvider = vscode.languages.registerCompletionItemProvider(
             //   return undefined;
             // }
           } catch (err: any) {
-            console.log(err);
+            console.log('provider error' + err);
             vscode.window.showErrorMessage(err.message);
           }
         }
