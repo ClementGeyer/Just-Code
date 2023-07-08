@@ -9,66 +9,36 @@ export const contextProvider = vscode.languages.registerCompletionItemProvider(
         async provideCompletionItems(
             document: vscode.TextDocument,
             position: vscode.Position,
-            token: vscode.CancellationToken,
-            context: vscode.CompletionContext
+            _token: vscode.CancellationToken,
+            _context: vscode.CompletionContext
           ) {
-            console.log('provider')
-
-            const linePrefix = document
-            .lineAt(position)
-            .text.substring(0, position.character);
-
-            console.log('line prefix', linePrefix)
+          const textBeforePos = document.lineAt(position).text.substring(0, position.character).trim();
+          const lineText = document.lineAt(position).text;
+          const commentType = getCommentType(document.languageId);
 
           try {
-            // if (
-            //   linePrefix.includes(commentChar) &&
-            //   position.character > line.trimLeft().indexOf(commentChar)
-            // ) {
+            // Checks if text has a commentType and cursor is after comment
+            if (textBeforePos.includes(commentType) && isCursorAfterCommentType(lineText, commentType, position)) {
               return new Promise<vscode.CompletionItem[] | undefined>(
-                async (resolve, reject) => {
-                  let language =
-                    vscode.window.activeTextEditor?.document.languageId;
-    
-                  let updatedText =
-                    vscode.window.activeTextEditor?.document.lineAt(position).text;
-                  // if (updatedText === line) {
-                  //   let comment = await displayInlineComment(
-                  //     position,
-                  //     document,
-                  //     language
-                  //   );
-                  let completion = new vscode.CompletionItem(
-                    "...",
-                    vscode.CompletionItemKind.Text
-                  );
-                  console.log('ggwp')
-                  completion.detail = "JustCode";
-                  completion.insertText = "";
-                  completion.command = {
-                    command: "justcode.helloWorld",
-                    title: "Insert Inline Comment",
-                    arguments: [
-                      {
-                        doc: document,
-                        curs: position,
-                        lang: language,
-                      },
-                    ],
-                    tooltip: "Insert Inline Comment",
-                  };
-                    resolve([completion]);
-                  // } else {
-                  //   resolve(undefined);
-                  // }
+                async (resolve, _reject) => {
+                  const lang = vscode.window.activeTextEditor?.document.languageId;
+                  const textNew = vscode.window.activeTextEditor?.document.lineAt(position).text;
+
+                  // Check for changes
+                  if (textNew === lineText) {
+                    let comment = await displaySingleComment(position, document, lang);
+                    resolve(comment);
+                  } else {
+                    resolve(undefined);
+                  }
                 }
               );
-            // } else {
-            //   return undefined;
-            // }
-          } catch (err: any) {
-            console.log('provider error' + err);
-            vscode.window.showErrorMessage(err.message);
+            } else {
+              return undefined;
+            }
+          } catch (error: any) {
+            vscode.window.showErrorMessage(error.message);
+            console.log(error);     
           }
         }
 
@@ -76,3 +46,46 @@ export const contextProvider = vscode.languages.registerCompletionItemProvider(
     " ",
     ","
 )
+
+const isCursorAfterCommentType = (text: string, commentType: string, position: vscode.Position) => {
+  return position.character > text.trim().indexOf(commentType);
+}
+
+const getCommentType = (lang: string) => {
+  // TODO: Add comment types for different languages
+  return "//";
+};
+
+export const displaySingleComment = async (
+  position: vscode.Position,
+  document: vscode.TextDocument,
+  language: string = "normal"
+) => {
+  try {
+    let completionItem = new vscode.CompletionItem("...", vscode.CompletionItemKind.Text);
+
+    completionItem.detail = "JustCode Autocomplete";
+    // TODO: Insert generated comment about next line
+    completionItem.insertText = "aaa";
+
+    // TODO: figure out this
+    completionItem.command = {
+      title: "Single Comment Autocomplete",
+      command: "justcode.insertSingleComment",
+      tooltip: "Single Comment Autocomplete",
+      
+      arguments: [
+        {
+          document: document,
+          cursor: position,
+          language: language,
+        },
+      ],
+    };
+    
+    return [completionItem];
+  } catch (error: any) {
+    vscode.window.showErrorMessage(error.response);
+    console.log(error.response);
+  }
+};

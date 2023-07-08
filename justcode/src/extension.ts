@@ -18,7 +18,7 @@ export function activate(context: vscode.ExtensionContext) {
 		insertSingleLineCommentCommand
 	);
 
-	context.subscriptions.push(disposable);
+	context.subscriptions.push(disposable, contextProvider)
 }
 
 // This method is called when your extension is deactivated
