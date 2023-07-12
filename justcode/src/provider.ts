@@ -1,4 +1,6 @@
 import * as vscode from "vscode";
+import { generateComment } from "./api";
+import { getNextLine } from "./functions";
 
 export const contextProvider = vscode.languages.registerCompletionItemProvider(
     [
@@ -62,11 +64,14 @@ export const displaySingleComment = async (
   language: string = "normal"
 ) => {
   try {
-    let completionItem = new vscode.CompletionItem("...", vscode.CompletionItemKind.Text);
+    let nextLine: string = getNextLine(position, language) ?? ""
+    //catch cases
+    let comment = await generateComment(nextLine)
+    let completionItem = new vscode.CompletionItem(comment.content, vscode.CompletionItemKind.Text);
 
     completionItem.detail = "JustCode Autocomplete";
     // TODO: Insert generated comment about next line
-    completionItem.insertText = "aaa";
+    completionItem.insertText = comment.content;
 
     // TODO: figure out this
     completionItem.command = {
