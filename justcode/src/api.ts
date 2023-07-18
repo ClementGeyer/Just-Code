@@ -2,7 +2,7 @@ import * as vscode from "vscode";
 import axios from "axios";
 import axiosRetry from "axios-retry";
 
-export const generateComment = async (
+export const generateSingleLineShortComment = async (
   code: string
     // fullCode: string,
     // comment: string,
