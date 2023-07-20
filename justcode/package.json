@@ -9,13 +9,15 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": ["onStartupFinished"],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "justcode.helloWorld",
-        "title": "Hello World"
+        "command": "justcode.docStringComment",
+        "title": "Insert Docstring Comment"
       }
     ]
   },
@@ -42,7 +44,7 @@
     "glob": "^8.1.0",
     "mocha": "^10.2.0",
     "ts-loader": "^9.4.3",
-    "typescript": "^5.1.3",
+    "typescript": "^5.1.6",
     "webpack": "^5.85.0",
     "webpack-cli": "^5.1.1"
   },
