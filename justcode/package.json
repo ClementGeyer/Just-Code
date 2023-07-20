@@ -33,6 +33,7 @@
     "test": "node ./out/test/runTest.js"
   },
   "devDependencies": {
+    "@types/babel__traverse": "^7.20.1",
     "@types/glob": "^8.1.0",
     "@types/mocha": "^10.0.1",
     "@types/node": "20.2.5",
@@ -49,6 +50,8 @@
     "webpack-cli": "^5.1.1"
   },
   "dependencies": {
+    "@babel/parser": "^7.22.7",
+    "@babel/traverse": "^7.22.8",
     "axios": "^1.4.0",
     "axios-retry": "^3.5.1",
     "vscode": "^1.1.37"

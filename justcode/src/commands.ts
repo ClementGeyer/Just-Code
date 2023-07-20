@@ -1,6 +1,9 @@
 import * as vscode from "vscode";
 import * as ts from 'typescript';
 import { generateSingleLineShortComment } from "./api";
+import { parse } from '@babel/parser';
+import traverse, { NodePath } from '@babel/traverse';
+import * as t from '@babel/types';
 
 export const insertDocstringCommentCommand = () => {
   vscode.window.withProgress({
@@ -49,30 +52,57 @@ export function generateDocstringComment() {
 
   const selection = editor.selection;
   const { start, end } = selection;
+  const position = start.line + 1; // Adjust for 0-indexing
 
-  const docstring = generateDocStringForFunction(editor.document, start.line);
+  const code = editor.document.getText();
+  const ast = parse(code, {
+    sourceType: 'module',
+    plugins: ['jsx'],
+    //loc: true,
+  });
+
+  let docstring = '';
+
+  traverse(ast, {
+    FunctionDeclaration(path) {
+      const node = path.node as t.FunctionDeclaration;
+      const { start, end } = node.loc!;
+      if (position >= start.line && position <= end.line) {
+        const functionName = node.id?.name || 'unnamedFunction';
+        docstring = `/**\n * Function ${functionName}\n * @returns {void}\n */`;
+        path.stop(); // Stop traversing the AST as we found the enclosing function.
+      }
+    },
+  });
+
   if (!docstring) {
     vscode.window.showErrorMessage('Failed to generate docstring.');
     return;
   }
 
   editor.edit((editBuilder) => {
-    editBuilder.insert(start.with(undefined, 0), docstring + '\n\n');
+    const declarationLine = getFunctionDeclarationLine(code);
+    if(declarationLine)
+      editBuilder.insert(new vscode.Position(declarationLine - 1, 0), docstring + '\n\n');
   });
 }
 
-function generateDocStringForFunction(document: vscode.TextDocument, line: number): string | undefined {
-  const lineText = document.lineAt(line).text.trim();
+function getFunctionDeclarationLine(code: string): number | undefined {
+  const ast = parse(code, {
+    sourceType: 'module',
+    plugins: ['jsx'],
+    //loc: true,
+  });
 
-  // Check if the line contains a function declaration
-  const functionRegex = /function\s+(\w+)\s*\([^)]*\)/;
-  const matches = lineText.match(functionRegex);
+  let lineNumber: number | undefined;
 
-  if (matches) {
-    const functionName = matches[1];
-    const docstring = `/**\n * Function ${functionName}\n * @returns {void}\n */`;
-    return docstring;
-  }
+  traverse(ast, {
+    FunctionDeclaration(path) {
+      const node = path.node as t.FunctionDeclaration;
+      lineNumber = node.loc?.start.line;
+      path.stop(); // Stop traversing the AST as we found the function declaration.
+    },
+  });
 
-  return undefined;
+  return lineNumber;
 }
