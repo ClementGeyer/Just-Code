@@ -30,3 +30,22 @@ export const generateSingleLineShortComment = async (
       }
     }
   };
+
+export const generateJSDocstringComment = async (
+  context: string,
+) => {
+  try {
+    const { data } = await axios.post("http://localhost:8080/generateJSDocstringComment", { context: context });
+    return data;
+  } catch (err: any) {
+    // Figure out what went wrong
+    axiosRetry(axios, { retryDelay: axiosRetry.exponentialDelay, retries: 5 });
+    vscode.window.showErrorMessage(
+      "Error: Something went wrong. Try again shortly."
+    );
+    console.log(err);
+    if (err.request.data) {
+      vscode.window.showErrorMessage(err.request.data);
+    }
+  }
+};
