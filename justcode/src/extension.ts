@@ -2,7 +2,7 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 import { contextProvider } from './provider';
-import { generateDocstringComment } from './commands';
+import { insertDocstringComment } from './commands';
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -14,7 +14,7 @@ export function activate(context: vscode.ExtensionContext) {
 	
 	let disposable = vscode.commands.registerCommand(
 		"justcode.docStringComment",
-		generateDocstringComment
+		insertDocstringComment
 	);
 
 	context.subscriptions.push(disposable, contextProvider)

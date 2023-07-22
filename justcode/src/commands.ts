@@ -5,6 +5,8 @@ import { parse } from '@babel/parser';
 import traverse, { NodePath } from '@babel/traverse';
 import * as t from '@babel/types';
 
+let highlightDecorationType: vscode.TextEditorDecorationType | undefined;
+
 export const insertDocstringCommentCommand = () => {
   vscode.window.withProgress({
       location: vscode.ProgressLocation.Notification,
@@ -43,7 +45,7 @@ export const insertDocstringCommentCommand = () => {
   });
 }
 
-export function generateDocstringComment() {
+export function insertDocstringComment() {
   const editor = vscode.window.activeTextEditor;
   if (!editor) {
     vscode.window.showErrorMessage('No active text editor.');
@@ -58,10 +60,11 @@ export function generateDocstringComment() {
   const ast = parse(code, {
     sourceType: 'module',
     plugins: ['jsx'],
-    //loc: true,
+    // loc: true,
   });
 
   let docstring = '';
+  let functionRange: vscode.Range | undefined;
 
   traverse(ast, {
     FunctionDeclaration(path) {
@@ -70,6 +73,10 @@ export function generateDocstringComment() {
       if (position >= start.line && position <= end.line) {
         const functionName = node.id?.name || 'unnamedFunction';
         docstring = `/**\n * Function ${functionName}\n * @returns {void}\n */`;
+        functionRange = new vscode.Range(
+          new vscode.Position(start.line - 1, 0), // Adjust for 0-indexing
+          new vscode.Position(end.line, 0)
+        );
         path.stop(); // Stop traversing the AST as we found the enclosing function.
       }
     },
@@ -78,6 +85,11 @@ export function generateDocstringComment() {
   if (!docstring) {
     vscode.window.showErrorMessage('Failed to generate docstring.');
     return;
+  }
+
+  if (functionRange) {
+    // Perform custom selection to highlight the function range
+    editor.selection = new vscode.Selection(functionRange.start, functionRange.end);
   }
 
   editor.edit((editBuilder) => {
