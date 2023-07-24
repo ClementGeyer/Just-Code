@@ -81,15 +81,18 @@ export async function insertDocstringComment() {
 
     editor.edit((editBuilder) => {
       // TODO: Adapt it to arrow functions
-      const declarationLine = getFunctionDeclarationLine(code);
+      const cursorPosition = editor.selection.start
+      const declarationLine = getFunctionDeclarationLine(code, cursorPosition);
+      console.log(declarationLine)
       if(declarationLine)
         editBuilder.insert(new vscode.Position(declarationLine - 1, 0), docStringComment.content + '\n\n');
-    });
+    }); 
   }
 })
 }
 
-function getFunctionDeclarationLine(code: string): number | undefined {
+function getFunctionDeclarationLine(code: string, position: vscode.Position): number | undefined {
+  console.log(position.line)
   const ast = parse(code, {
     sourceType: 'module',
     plugins: ['jsx'],
@@ -101,8 +104,21 @@ function getFunctionDeclarationLine(code: string): number | undefined {
   traverse(ast, {
     FunctionDeclaration(path) {
       const node = path.node as t.FunctionDeclaration;
-      lineNumber = node.loc?.start.line;
-      path.stop(); // Stop traversing the AST as we found the function declaration.
+      const { loc } = node;
+      console.log('function', loc?.start.line)
+      if (loc && loc.start.line - 1 <= position.line && loc.end.line >= position.line) {
+        lineNumber = loc.start.line;
+        path.stop(); // Stop traversing the AST as we found the function declaration.
+      }
+    },
+    ArrowFunctionExpression(path) {
+      const node = path.node as t.ArrowFunctionExpression;
+      const { loc } = node;
+      console.log('arrowfunction', loc?.start.line)
+      if (loc && loc.start.line - 1 <= position.line && loc.end.line >= position.line) {
+        lineNumber = loc.start.line;
+        path.stop(); // Stop traversing the AST as we found the arrow function expression.
+      }
     },
   });
 
