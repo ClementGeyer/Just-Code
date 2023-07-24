@@ -51,6 +51,18 @@ export async function insertDocstringComment() {
         path.stop(); // Stop traversing the AST as we found the enclosing function.
       }
     },
+    ArrowFunctionExpression(path) {
+      const node = path.node as t.ArrowFunctionExpression;
+      const { loc } = node;
+      if (loc && loc.start.line <= position && loc.end.line >= position) {
+        docstring = `/**\n * Arrow Function\n * @returns {void}\n */`;
+        functionRange = new vscode.Range(
+          new vscode.Position(loc.start.line - 1, 0), // Adjust for 0-indexing
+          new vscode.Position(loc.end.line, 0)
+        );
+        path.stop(); // Stop traversing the AST as we found the enclosing arrow function.
+      }
+    },
   });
 
   if (!docstring) {
@@ -64,10 +76,11 @@ export async function insertDocstringComment() {
 
     // Perform custom selection to highlight the function range
     editor.selection = new vscode.Selection(functionRange.start, functionRange.end);
-
+    console.log(functionText)
     const docStringComment = await generateJSDocstringComment(functionText);
 
     editor.edit((editBuilder) => {
+      // TODO: Adapt it to arrow functions
       const declarationLine = getFunctionDeclarationLine(code);
       if(declarationLine)
         editBuilder.insert(new vscode.Position(declarationLine - 1, 0), docStringComment.content + '\n\n');
