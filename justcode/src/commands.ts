@@ -37,7 +37,6 @@ export async function insertDocstringComment() {
   let docstring = '';
   let functionRange: vscode.Range | undefined;
   let functionName: string | undefined;
-  //const language = editor.document.languageId;;
 
   // Non-nested files get right function, ReactJS get JSX main element
   traverse(ast, {
@@ -76,8 +75,10 @@ export async function insertDocstringComment() {
 
   if (functionRange) {
     let lastChildText = "";
-    let functionText = ""
+    let functionText = "";
     let docStringComment: any;
+
+    const cursorPosition = editor.selection.start
 
     // Handles ReactJS files, even if not .jsx
     const lastChild = findLastChildFunction(ast, editor.selection.active)
@@ -96,9 +97,9 @@ export async function insertDocstringComment() {
     }
 
     editor.edit((editBuilder) => {
-      const cursorPosition = editor.selection.start
       // declaration line broken in jsx files
       const declarationLine = getFunctionDeclarationLine(ast, cursorPosition);
+      console.log(declarationLine)
       if(declarationLine)
         editBuilder.insert(new vscode.Position(declarationLine - 1, 0), docStringComment.content + '\n\n');
     }); 
@@ -113,19 +114,20 @@ function getFunctionDeclarationLine(ast: t.File, position: vscode.Position): num
 
   traverse(ast, {
     FunctionDeclaration(path) {
-      const node = path.node as t.FunctionDeclaration;
-      const { loc } = node;
-      if (loc && loc.start.line - 1 <= position.line && loc.end.line >= position.line) {
-        lineNumber = loc.start.line;
-        path.stop(); // Stop traversing the AST as we found the function declaration.
+      const fnNode = path.node as t.FunctionDeclaration;
+      if (fnNode.loc && fnNode.loc.start.line <= position.line && fnNode.loc.end.line >= position.line) {
+        lineNumber = fnNode.loc.start.line
       }
     },
     ArrowFunctionExpression(path) {
-      const node = path.node as t.ArrowFunctionExpression;
-      const { loc } = node;
-      if (loc && loc.start.line - 1 <= position.line && loc.end.line >= position.line) {
-        lineNumber = loc.start.line;
-        path.stop(); // Stop traversing the AST as we found the arrow function expression.
+      const arrowNode = path.node as t.ArrowFunctionExpression;
+      //Maybe handle column positioning
+      if (
+        arrowNode.loc &&
+        arrowNode.loc.start.line <= position.line &&
+        arrowNode.loc.end.line >= position.line 
+      ) {
+        lineNumber = arrowNode.loc.start.line
       }
     },
   });
