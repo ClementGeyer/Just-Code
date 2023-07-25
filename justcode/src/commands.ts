@@ -97,9 +97,7 @@ export async function insertDocstringComment() {
     }
 
     editor.edit((editBuilder) => {
-      // declaration line broken in jsx files
       const declarationLine = getFunctionDeclarationLine(ast, cursorPosition);
-      console.log(declarationLine)
       if(declarationLine)
         editBuilder.insert(new vscode.Position(declarationLine - 1, 0), docStringComment.content + '\n\n');
     }); 
