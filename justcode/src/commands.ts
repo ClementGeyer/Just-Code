@@ -74,8 +74,9 @@ export async function insertDocstringComment() {
   }
 
   if (functionRange) {
-    let lastChildText = "";
-    let functionText = "";
+    let lastChildText: string;
+    let functionText: string;
+    let hasTab: boolean;
     let docStringComment: any;
 
     const cursorPosition = editor.selection.start
@@ -88,18 +89,36 @@ export async function insertDocstringComment() {
       let lastChildRange = new vscode.Selection(lastChild?.start, lastChild?.end);
       editor.selection = lastChildRange
       lastChildText = editor.document.getText(lastChildRange);
+      hasTab = hasTabulationBeforeFunction(lastChildText, lastChildRange, editor)
       docStringComment = await generateJSDocstringComment(lastChildText);
     } else {
       let range = new vscode.Selection(functionRange?.start, functionRange?.end)
       editor.selection = range
       functionText = editor.document.getText(functionRange);
+      hasTab = hasTabulationBeforeFunction(functionText, range, editor)
       docStringComment = await generateJSDocstringComment(functionText);
     }
 
+    console.log(hasTab)
+
     editor.edit((editBuilder) => {
       const declarationLine = getFunctionDeclarationLine(ast, cursorPosition);
-      if(declarationLine)
-        editBuilder.insert(new vscode.Position(declarationLine - 1, 0), docStringComment.content + '\n\n');
+
+       // Get the indentation for the docstring comment
+      const tabSize = editor.options.tabSize || 4; // Default tab size to 4 if tabSize is not defined
+      const indentation = hasTab ? '\t' : ' '.repeat(tabSize);
+
+      // Split the docstring comment into lines and add indentation to each line
+      const indentedLines = docStringComment.content
+        .split('\n')
+        .map((line) => indentation + line)
+        .join('\n');
+
+
+      if(declarationLine){
+        editBuilder.insert(new vscode.Position(declarationLine - 1, 0), indentedLines + '\n');
+      }
+        
     }); 
   }
 })
@@ -164,4 +183,14 @@ function findLastChildFunction(node: t.Node, position: vscode.Position): { start
   });
 
   return innermostFunction;
+}
+
+function hasTabulationBeforeFunction(code: string, functionRange: vscode.Range, editor: vscode.TextEditor): boolean {
+  const startLine = functionRange.start.line;
+
+  // Get the text of the entire line before the function start position
+  const lineBeforeFunction = editor.document.lineAt(startLine).text;
+
+  // Check if there are any non-whitespace characters before the function start position
+  return /\S/.test(lineBeforeFunction);
 }
