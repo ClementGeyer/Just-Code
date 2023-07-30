@@ -99,8 +99,6 @@ export async function insertDocstringComment() {
       docStringComment = await generateJSDocstringComment(functionText);
     }
 
-    console.log(hasTab)
-
     editor.edit((editBuilder) => {
       const declarationLine = getFunctionDeclarationLine(ast, cursorPosition);
 
@@ -111,7 +109,7 @@ export async function insertDocstringComment() {
       // Split the docstring comment into lines and add indentation to each line
       const indentedLines = docStringComment.content
         .split('\n')
-        .map((line) => indentation + line)
+        .map((line: string) => indentation + line)
         .join('\n');
 
 
@@ -132,7 +130,8 @@ function getFunctionDeclarationLine(ast: t.File, position: vscode.Position): num
   traverse(ast, {
     FunctionDeclaration(path) {
       const fnNode = path.node as t.FunctionDeclaration;
-      if (fnNode.loc && fnNode.loc.start.line <= position.line && fnNode.loc.end.line >= position.line) {
+      console.log(fnNode.loc?.start.line, position.line)
+      if (fnNode.loc && fnNode.loc.start.line <= position.line + 1 && fnNode.loc.end.line >= position.line) {
         lineNumber = fnNode.loc.start.line
       }
     },
@@ -141,8 +140,8 @@ function getFunctionDeclarationLine(ast: t.File, position: vscode.Position): num
       //Maybe handle column positioning
       if (
         arrowNode.loc &&
-        arrowNode.loc.start.line <= position.line &&
-        arrowNode.loc.end.line >= position.line 
+        arrowNode.loc.start.line <= position.line + 1 &&
+        arrowNode.loc.end.line >= position.line
       ) {
         lineNumber = arrowNode.loc.start.line
       }
@@ -159,7 +158,7 @@ function findLastChildFunction(node: t.Node, position: vscode.Position): { start
   traverse(node, {
     FunctionDeclaration(path) {
       const fnNode = path.node as t.FunctionDeclaration;
-      if (fnNode.loc && fnNode.loc.start.line <= position.line && fnNode.loc.end.line >= position.line) {
+      if (fnNode.loc && fnNode.loc.start.line <= position.line + 1 && fnNode.loc.end.line >= position.line + 1) {
         innermostFunction = {
           start: new vscode.Position(fnNode.loc.start.line - 1, 0), // Adjust for 0-indexing
           end: new vscode.Position(fnNode.loc.end.line, 0),
@@ -171,8 +170,8 @@ function findLastChildFunction(node: t.Node, position: vscode.Position): { start
       //Maybe handle column positioning
       if (
         arrowNode.loc &&
-        arrowNode.loc.start.line <= position.line &&
-        arrowNode.loc.end.line >= position.line 
+        arrowNode.loc.start.line <= position.line + 1 &&
+        arrowNode.loc.end.line >= position.line + 1
       ) {
         innermostFunction = {
           start: new vscode.Position(arrowNode.loc.start.line - 1, 0), // Adjust for 0-indexing
@@ -182,6 +181,7 @@ function findLastChildFunction(node: t.Node, position: vscode.Position): { start
     },
   });
 
+  console.log(innermostFunction)
   return innermostFunction;
 }
 
