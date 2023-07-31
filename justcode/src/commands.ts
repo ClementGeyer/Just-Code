@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { generateJSDocstringComment } from "./api";
+import { generateJSDocstringComment, generateJSDocstringCommentReactHooks } from "./api";
 import { parse } from '@babel/parser';
 import traverse, { NodePath } from '@babel/traverse';
 import * as t from '@babel/types';
@@ -76,7 +76,6 @@ export async function insertDocstringComment() {
   if (functionRange) {
     let lastChildText: string;
     let functionText: string;
-    let hasTab: boolean;
     let docStringComment: any;
 
     const cursorPosition = editor.selection.start
@@ -89,13 +88,17 @@ export async function insertDocstringComment() {
       let lastChildRange = new vscode.Selection(lastChild?.start, lastChild?.end);
       editor.selection = lastChildRange
       lastChildText = editor.document.getText(lastChildRange);
-      // hasTab = hasTabulationBeforeFunction(lastChildRange, editor)
-      docStringComment = await generateJSDocstringComment(lastChildText);
+      let firstLineRaw = lastChildText.split('\n')[0];
+      let hook = isHook(firstLineRaw);
+      if(hook){
+        docStringComment = await generateJSDocstringCommentReactHooks(lastChildText);
+      }else {
+        docStringComment = await generateJSDocstringComment(lastChildText);
+      }
     } else {
       let range = new vscode.Selection(functionRange?.start, functionRange?.end)
       editor.selection = range
       functionText = editor.document.getText(functionRange);
-      // hasTab = hasTabulationBeforeFunction(range, editor)
       docStringComment = await generateJSDocstringComment(functionText);
     }
 
@@ -196,4 +199,30 @@ function countLeadingTabs(line: string): number {
     }
   }
   return count;
+}
+
+function isHook(rawData: string): boolean{
+  let isHook;
+
+  let data = removeSpacesAndAfterFirstParenthesis(rawData)
+
+  if(data.substring(0, 3) === "use"){
+    isHook = true;
+  } else {
+    isHook = false
+  }
+
+  return isHook
+}
+
+function removeSpacesAndAfterFirstParenthesis(inputString: string) {
+  let stringWithoutSpaces = inputString.replace(/\s/g, '');
+
+  const firstParenthesisIndex = stringWithoutSpaces.indexOf('(');
+
+  if (firstParenthesisIndex !== -1) {
+    stringWithoutSpaces = stringWithoutSpaces.substr(0, firstParenthesisIndex);
+  }
+
+  return stringWithoutSpaces;
 }
