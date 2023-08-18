@@ -1,0 +1,1 @@
+export const apiBaseUrl = "https://just-code-api.onrender.com";

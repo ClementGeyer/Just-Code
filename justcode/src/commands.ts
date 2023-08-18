@@ -111,7 +111,7 @@ export async function insertDocstringComment() {
 
         const indentedComment = docStringComment.content
           .split('\n')
-          .map((line) => '\t'.repeat(leadingTabs) + line)
+          .map((line: any) => '\t'.repeat(leadingTabs) + line)
           .join('\n');
 
         editBuilder.insert(new vscode.Position(declarationLine - 1, 0), indentedComment + '\n');

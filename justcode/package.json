@@ -18,6 +18,10 @@
       {
         "command": "justcode.docStringComment",
         "title": "Insert Docstring Comment"
+      },
+      {
+        "command": "justcode.authenticate",
+        "title": "Authenticate"
       }
     ]
   },
@@ -37,6 +41,7 @@
     "@types/glob": "^8.1.0",
     "@types/mocha": "^10.0.1",
     "@types/node": "20.2.5",
+    "@types/polka": "^0.5.4",
     "@types/vscode": "^1.79.0",
     "@typescript-eslint/eslint-plugin": "^5.59.8",
     "@typescript-eslint/parser": "^5.59.8",
@@ -54,6 +59,7 @@
     "@babel/traverse": "^7.22.8",
     "axios": "^1.4.0",
     "axios-retry": "^3.5.1",
+    "polka": "^0.5.2",
     "vscode": "^1.1.37"
   }
 }

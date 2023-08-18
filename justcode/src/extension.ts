@@ -3,14 +3,25 @@
 import * as vscode from 'vscode';
 import { contextProvider } from './provider';
 import { insertDocstringComment } from './commands';
+import { authenticate } from './authenticate';
+import { TokenManager } from "./TokenManager";
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
+	TokenManager.globalState = context.globalState;
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
 	console.log('Congratulations, your extension "justcode" is now active!');
+
+	context.subscriptions.push(
+		vscode.commands.registerCommand("justcode.authenticate", () => {
+			try {
+				authenticate();
+			} catch (err) {
+				console.log(err);
+			}
+		})
+	);
 	
 	let disposable = vscode.commands.registerCommand(
 		"justcode.docStringComment",
