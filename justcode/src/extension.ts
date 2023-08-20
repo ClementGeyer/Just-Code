@@ -37,6 +37,12 @@ export async function activate(context: vscode.ExtensionContext) {
 			);
 			context.subscriptions.push(docstringCommand);
 		}
+
+		let logout = vscode.commands.registerCommand(
+			"justcode.logout",
+			() => { TokenManager.setToken("") }
+		);
+		context.subscriptions.push(logout);
 	} else {
 		context.subscriptions.push(
 			vscode.commands.registerCommand("justcode.authenticate", () => {
