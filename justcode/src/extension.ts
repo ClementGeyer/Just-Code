@@ -5,23 +5,42 @@ import { contextProvider } from './provider';
 import { insertDocstringComment } from './commands';
 import { authenticate } from './authenticate';
 import { TokenManager } from "./TokenManager";
+import type { User } from "./types";
+import fetch from 'node-fetch';
+import { apiBaseUrl, localhostBaseUrl } from "./const";
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
-export function activate(context: vscode.ExtensionContext) {
+export async function activate(context: vscode.ExtensionContext) {
 	TokenManager.globalState = context.globalState;
 
 	console.log('Congratulations, your extension "justcode" is now active!');
 
-	context.subscriptions.push(
-		vscode.commands.registerCommand("justcode.authenticate", () => {
-			try {
-				authenticate();
-			} catch (err) {
-				console.log(err);
-			}
-		})
-	);
+	let accessToken = TokenManager.getToken();
+	console.log(accessToken)
+    let user: User | null = null;
+
+    const response = await fetch(`${localhostBaseUrl}/me`, {
+        headers: {
+            authorization: `Bearer ${accessToken}`,
+        },
+    });
+    const data = await response.json();
+    user = (<any>data).user;
+
+	if(user){
+		vscode.window.showInformationMessage("You are logged in as: " + user?.name);
+	} else {
+		context.subscriptions.push(
+			vscode.commands.registerCommand("justcode.authenticate", () => {
+				try {
+					authenticate();
+				} catch (err) {
+					console.log(err);
+				}
+			})
+		);
+	}
 	
 	let disposable = vscode.commands.registerCommand(
 		"justcode.docStringComment",
