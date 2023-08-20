@@ -1,22 +1,20 @@
 import * as vscode from "vscode";
 import axios from "axios";
 import axiosRetry from "axios-retry";
+import { apiBaseUrl, localhostBaseUrl } from "./const";
+import { TokenManager } from "./TokenManager";
 
 export const generateSingleLineShortComment = async (
   code: string
-    // fullCode: string,
-    // comment: string,
-    // language: string,
-    // accessToken: string
   ) => {
     try {
-      const {data} = await axios.post("http://localhost:8080/generateSingleLineComment", { 
-          code: code
-          // full_code: fullCode,
-          // comment: comment,
-          // language: language,
-        }
-      );
+      const { data } = await axios.post(`${apiBaseUrl}/generateSingleLineComment`, { 
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+          'authorization': `Bearer ${TokenManager.getToken()}`,
+        },  
+        code: code 
+      });
       return data;
     } catch (err: any) {
       // Figure out what went wrong
@@ -35,17 +33,38 @@ export const generateJSDocstringComment = async (
   context: string,
 ) => {
   try {
-    const { data } = await axios.post("http://localhost:8080/generateJSDocstringComment", { context: context });
+    const { data } = await axios.post(`${apiBaseUrl}/generateJSDocstringComment`, { 
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        'authorization': `Bearer ${TokenManager.getToken()}`,
+      },  
+      context: context 
+    });
     return data;
   } catch (err: any) {
     // Figure out what went wrong
     axiosRetry(axios, { retryDelay: axiosRetry.exponentialDelay, retries: 5 });
-    vscode.window.showErrorMessage(
-      "Error: Something went wrong. Try again shortly."
-    );
-    console.log(err);
-    if (err.request.data) {
-      vscode.window.showErrorMessage(err.request.data);
+    switch(err.response.data){
+      case "HEA":
+        vscode.window.showErrorMessage(
+          "JustCode Error: Something went wrong. Try again shortly."
+        );
+        break;
+      case "TOK":
+        vscode.window.showErrorMessage(
+          "JustCode Error: Something went wrong. Try again shortly."
+        );
+        break;
+      case "UNF":
+        vscode.window.showErrorMessage(
+          "JustCode Error: User not found"
+        );
+        break;
+      case "UNP":
+        vscode.window.showErrorMessage(
+          "JustCode Error: User is not premium"
+        );
+        break;
     }
   }
 };
@@ -54,17 +73,38 @@ export const generateJSDocstringCommentReactHooks = async (
   context: string,
 ) => {
   try {
-    const { data } = await axios.post("http://localhost:8080/generateJSDocstringCommentReactHooks", { context: context });
+    const { data } = await axios.post(`${apiBaseUrl}/generateJSDocstringCommentReactHooks`, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        'authorization': `Bearer ${TokenManager.getToken()}`,
+      },   
+      context: context
+    });
     return data;
   } catch (err: any) {
     // Figure out what went wrong
     axiosRetry(axios, { retryDelay: axiosRetry.exponentialDelay, retries: 5 });
-    vscode.window.showErrorMessage(
-      "Error: Something went wrong. Try again shortly."
-    );
-    console.log(err);
-    if (err.request.data) {
-      vscode.window.showErrorMessage(err.request.data);
+    switch(err.response.data){
+      case "HEA":
+        vscode.window.showErrorMessage(
+          "JustCode Error: Something went wrong. Try again shortly."
+        );
+        break;
+      case "TOK":
+        vscode.window.showErrorMessage(
+          "JustCode Error: Something went wrong. Try again shortly."
+        );
+        break;
+      case "UNF":
+        vscode.window.showErrorMessage(
+          "JustCode Error: User not found"
+        );
+        break;
+      case "UNP":
+        vscode.window.showErrorMessage(
+          "JustCode Error: User is not premium"
+        );
+        break;
     }
   }
 };

@@ -14,7 +14,7 @@ export async function insertDocstringComment() {
     }
   
   progress.report({
-    message: `Generating comments ...`,
+    message: `JustCode: Generating comments ...`,
   });
 
   const editor = vscode.window.activeTextEditor;
@@ -102,22 +102,24 @@ export async function insertDocstringComment() {
       docStringComment = await generateJSDocstringComment(functionText);
     }
 
-    editor.edit((editBuilder) => {
-      const declarationLine = getFunctionDeclarationLine(ast, cursorPosition);
-
-      if(declarationLine){
-        const lineBeforeFunction = editor.document.lineAt(declarationLine - 1).text;
-        const leadingTabs = countLeadingTabs(lineBeforeFunction);
-
-        const indentedComment = docStringComment.content
-          .split('\n')
-          .map((line: any) => '\t'.repeat(leadingTabs) + line)
-          .join('\n');
-
-        editBuilder.insert(new vscode.Position(declarationLine - 1, 0), indentedComment + '\n');
-      }
-        
-    }); 
+    if(docStringComment){
+      editor.edit((editBuilder) => {
+        const declarationLine = getFunctionDeclarationLine(ast, cursorPosition);
+  
+        if(declarationLine){
+          const lineBeforeFunction = editor.document.lineAt(declarationLine - 1).text;
+          const leadingTabs = countLeadingTabs(lineBeforeFunction);
+  
+          const indentedComment = docStringComment.content
+            .split('\n')
+            .map((line: any) => '\t'.repeat(leadingTabs) + line)
+            .join('\n');
+  
+          editBuilder.insert(new vscode.Position(declarationLine - 1, 0), indentedComment + '\n');
+        }
+          
+      }); 
+    }
   }
 })
 }

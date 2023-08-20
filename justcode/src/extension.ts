@@ -35,14 +35,6 @@ export async function activate(context: vscode.ExtensionContext) {
 				vscode.window.showInformationMessage("You are logged out")
 			}
 		});
-		if(user.premium){
-			let docstringCommand = vscode.commands.registerCommand(
-				"justcode.docStringComment",
-				insertDocstringComment
-			);
-			context.subscriptions.push(docstringCommand);
-		}
-
 		let logout = vscode.commands.registerCommand(
 			"justcode.logout",
 			() => { TokenManager.setToken("") }
@@ -65,7 +57,12 @@ export async function activate(context: vscode.ExtensionContext) {
 		);
 	}
 
-	context.subscriptions.push(contextProvider)
+	let docstringCommand = vscode.commands.registerCommand(
+		"justcode.docStringComment",
+		insertDocstringComment
+	);
+
+	context.subscriptions.push(docstringCommand, contextProvider)
 }
 
 // This method is called when your extension is deactivated
