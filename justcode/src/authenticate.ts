@@ -28,7 +28,7 @@ export const authenticate = () => {
     } else {
       vscode.commands.executeCommand(
         "vscode.open",
-        vscode.Uri.parse(`${localhostBaseUrl}/auth/github`)
+        vscode.Uri.parse(`${apiBaseUrl}/auth/github`)
       );
     }
   });

@@ -20,7 +20,7 @@ export async function activate(context: vscode.ExtensionContext) {
 	console.log(accessToken)
     let user: User | null = null;
 
-    const response = await fetch(`${localhostBaseUrl}/me`, {
+    const response = await fetch(`${apiBaseUrl}/me`, {
         headers: {
             authorization: `Bearer ${accessToken}`,
         },
