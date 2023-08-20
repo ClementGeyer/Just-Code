@@ -30,6 +30,13 @@ export async function activate(context: vscode.ExtensionContext) {
 
 	if(user){
 		vscode.window.showInformationMessage("You are logged in as: " + user?.name);
+		if(user.premium){
+			let docstringCommand = vscode.commands.registerCommand(
+				"justcode.docStringComment",
+				insertDocstringComment
+			);
+			context.subscriptions.push(docstringCommand);
+		}
 	} else {
 		context.subscriptions.push(
 			vscode.commands.registerCommand("justcode.authenticate", () => {
@@ -41,13 +48,8 @@ export async function activate(context: vscode.ExtensionContext) {
 			})
 		);
 	}
-	
-	let disposable = vscode.commands.registerCommand(
-		"justcode.docStringComment",
-		insertDocstringComment
-	);
 
-	context.subscriptions.push(disposable, contextProvider)
+	context.subscriptions.push(contextProvider)
 }
 
 // This method is called when your extension is deactivated
