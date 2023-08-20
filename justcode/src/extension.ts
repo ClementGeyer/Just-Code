@@ -17,7 +17,7 @@ export async function activate(context: vscode.ExtensionContext) {
 	console.log('Congratulations, your extension "justcode" is now active!');
 
 	let accessToken = TokenManager.getToken();
-	console.log(accessToken)
+
     let user: User | null = null;
 
     const response = await fetch(`${apiBaseUrl}/me`, {
@@ -29,7 +29,12 @@ export async function activate(context: vscode.ExtensionContext) {
     user = (<any>data).user;
 
 	if(user){
-		vscode.window.showInformationMessage("You are logged in as: " + user?.name);
+		vscode.window.showInformationMessage("You are logged in as: " + user?.name, 'Logout').then(selected => {
+			if(selected === "Logout"){
+				TokenManager.setToken("")
+				vscode.window.showInformationMessage("You are logged out")
+			}
+		});
 		if(user.premium){
 			let docstringCommand = vscode.commands.registerCommand(
 				"justcode.docStringComment",
@@ -44,6 +49,11 @@ export async function activate(context: vscode.ExtensionContext) {
 		);
 		context.subscriptions.push(logout);
 	} else {
+		vscode.window.showInformationMessage("Please log in to use JustCode", "Authenticate").then(async selected => {
+			if(selected === "Authenticate"){
+				authenticate();
+			}
+		});
 		context.subscriptions.push(
 			vscode.commands.registerCommand("justcode.authenticate", () => {
 				try {
