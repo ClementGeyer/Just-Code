@@ -1,7 +1,9 @@
 import * as vscode from "vscode";
-import { apiBaseUrl } from "./const";
+import { apiBaseUrl, localhostBaseUrl } from "./const";
 import * as polka from "polka";
 import { TokenManager } from "./TokenManager";
+import type { User } from "./types";
+import fetch from 'node-fetch';
 
 export const authenticate = () => {
   const app = polka();
@@ -17,6 +19,19 @@ export const authenticate = () => {
 
     res.end(`<h1>auth was successful, you can close this now</h1>`);
 
+    let accessToken = TokenManager.getToken();
+    let user: User | null = null;
+
+    const response = await fetch(`${localhostBaseUrl}/me`, {
+        headers: {
+            authorization: `Bearer ${accessToken}`,
+        },
+    });
+    const data = await response.json();
+    user = (<any>data).user;
+
+    vscode.window.showInformationMessage("Bienvenue: " + user?.name);      
+
     (app as any).server.close();
   });
 
@@ -26,7 +41,7 @@ export const authenticate = () => {
     } else {
       vscode.commands.executeCommand(
         "vscode.open",
-        vscode.Uri.parse(`${apiBaseUrl}/auth/github`)
+        vscode.Uri.parse(`${localhostBaseUrl}/auth/github`)
       );
     }
   });

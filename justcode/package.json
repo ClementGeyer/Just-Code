@@ -59,6 +59,7 @@
     "@babel/traverse": "^7.22.8",
     "axios": "^1.4.0",
     "axios-retry": "^3.5.1",
+    "node-fetch": "^3.3.2",
     "polka": "^0.5.2",
     "vscode": "^1.1.37"
   }
