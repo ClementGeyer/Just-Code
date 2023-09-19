@@ -5,7 +5,7 @@ import { TokenManager } from "./TokenManager";
 import type { User } from "./types";
 import fetch from 'node-fetch';
 
-export const authenticate = () => {
+export async function authenticate() {
   const app = polka();
 
   app.get(`/auth/:token`, async (req, res) => {
@@ -28,9 +28,15 @@ export const authenticate = () => {
     });
     const data = await response.json();
     user = (<any>data).user;
-    vscode.window.showInformationMessage("You are logged in as: " + user?.name);
-    
-    (app as any).server.close();
+
+    if(user){
+      let loginSentence: string = getLoginSentence(user);
+      vscode.window.showInformationMessage(loginSentence);
+    } else {
+      vscode.window.showErrorMessage("Failed to authenticate");
+    }
+
+    (app as any).server.close(); 
   });
 
   app.listen(54321, (err: Error) => {
@@ -44,3 +50,15 @@ export const authenticate = () => {
     }
   });
 };
+
+export function getLoginSentence(user: User){
+  let loginSentence: string = "";
+		if(user.freeTrial > 0){
+			loginSentence = "You are logged in as: " + user?.name + "\n You have " + user.freeTrial + " days remaining on your free trial"
+		}else if(user.premium){
+			loginSentence = "You are logged in as: " + user?.name + "\n Pro plan is activated"
+		}else{
+			loginSentence = "You are logged in as: " + user?.name
+		}
+  return loginSentence
+}

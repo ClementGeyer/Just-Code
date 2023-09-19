@@ -3,11 +3,12 @@
 import * as vscode from 'vscode';
 import { contextProvider } from './provider';
 import { insertDocstringComment } from './commands';
-import { authenticate } from './authenticate';
+import { authenticate, getLoginSentence } from './authenticate';
 import { TokenManager } from "./TokenManager";
 import type { User } from "./types";
-import fetch from 'node-fetch';
+
 import { apiBaseUrl, localhostBaseUrl } from "./const";
+import { getUser } from "./api";
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -16,53 +17,66 @@ export async function activate(context: vscode.ExtensionContext) {
 
 	console.log('Congratulations, your extension "justcode" is now active!');
 
-	let accessToken = TokenManager.getToken();
+	let accessToken: string = TokenManager.getToken() || "";
 
-    let user: User | null = null;
-
-    const response = await fetch(`${apiBaseUrl}/me`, {
-        headers: {
-            authorization: `Bearer ${accessToken}`,
-        },
-    });
-    const data = await response.json();
-    user = (<any>data).user;
+    let user: User | null = await getUser(accessToken);
 
 	if(user){
-		vscode.window.showInformationMessage("You are logged in as: " + user?.name, 'Logout').then(selected => {
+		let loginSentence: string = getLoginSentence(user);
+		vscode.window.showInformationMessage(loginSentence, 'Logout').then(async selected => {
 			if(selected === "Logout"){
 				TokenManager.setToken("")
-				vscode.window.showInformationMessage("You are logged out")
+				vscode.window.showInformationMessage('You are logged out');
+				user = null;
 			}
 		});
-		let logout = vscode.commands.registerCommand(
-			"justcode.logout",
-			() => { TokenManager.setToken("") }
-		);
-		context.subscriptions.push(logout);
 	} else {
-		vscode.window.showInformationMessage("Please log in to use JustCode", "Authenticate").then(async selected => {
+		vscode.window.showInformationMessage("Please log in with GitHub in order to use JustCode Pro", "Authenticate").then(async selected => {
 			if(selected === "Authenticate"){
-				authenticate();
+				try{
+					authenticate();
+					user = await getUser(accessToken);
+				} catch(e){
+					vscode.window.showErrorMessage("Failed to authenticate")
+				}
 			}
 		});
-		context.subscriptions.push(
-			vscode.commands.registerCommand("justcode.authenticate", () => {
-				try {
-					authenticate();
-				} catch (err) {
-					console.log(err);
-				}
-			})
-		);
+		
 	}
+
+	let login = vscode.commands.registerCommand("justcode.authenticate", async () => {
+		console.log(user)
+		if(!user){
+			try {
+				authenticate();
+				user = await getUser(accessToken);
+			} catch (err) {
+				vscode.window.showErrorMessage("Failed to authenticate");
+			}
+		} else{
+			vscode.window.showErrorMessage("You are already authenticated");
+		}
+	})
+
+	let logout = vscode.commands.registerCommand(
+		"justcode.logout",
+		() => { 
+			if(user){
+				TokenManager.setToken("")
+				vscode.window.showInformationMessage('You are logged out');
+				user = null;
+			} else {
+				vscode.window.showErrorMessage("You are not authenticated");
+			}	
+		}
+	);
 
 	let docstringCommand = vscode.commands.registerCommand(
 		"justcode.docStringComment",
 		insertDocstringComment
 	);
 
-	context.subscriptions.push(docstringCommand, contextProvider)
+	context.subscriptions.push(docstringCommand, contextProvider, login, logout)
 }
 
 // This method is called when your extension is deactivated

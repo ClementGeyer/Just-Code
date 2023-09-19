@@ -3,6 +3,8 @@ import axios from "axios";
 import axiosRetry from "axios-retry";
 import { apiBaseUrl, localhostBaseUrl } from "./const";
 import { TokenManager } from "./TokenManager";
+import fetch from 'node-fetch';
+import { User } from "./types";
 
 export const generateSingleLineShortComment = async (
   code: string
@@ -108,3 +110,16 @@ export const generateJSDocstringCommentReactHooks = async (
     }
   }
 };
+
+export const getUser = async (accessToken: string) => {
+  const response = await fetch(`${apiBaseUrl}/me`, {
+    headers: {
+        authorization: `Bearer ${accessToken}`,
+    },
+  });
+  const data = await response.json();
+
+  let user = (<any>data).user;
+  
+  return user;
+}
