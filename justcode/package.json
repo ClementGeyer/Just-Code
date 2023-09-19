@@ -17,15 +17,15 @@
     "commands": [
       {
         "command": "justcode.docStringComment",
-        "title": "Insert Docstring Comment"
+        "title": "JustCode: Insert Docstring Comment"
       },
       {
         "command": "justcode.authenticate",
-        "title": "Authenticate"
+        "title": "JustCode: Login"
       },
       {
         "command": "justcode.logout",
-        "title": "Logout"
+        "title": "JustCode: Logout"
       }
     ],
     "keybindings": [
