@@ -6,8 +6,6 @@ import { insertDocstringComment } from './commands';
 import { authenticate, getLoginSentence } from './authenticate';
 import { TokenManager } from "./TokenManager";
 import type { User } from "./types";
-
-import { apiBaseUrl, localhostBaseUrl } from "./const";
 import { getUser } from "./api";
 
 // This method is called when your extension is activated
@@ -18,8 +16,13 @@ export async function activate(context: vscode.ExtensionContext) {
 	console.log('Congratulations, your extension "justcode" is now active!');
 
 	let accessToken: string = TokenManager.getToken() || "";
+	let user: User | null = null;
 
-    let user: User | null = await getUser(accessToken);
+	try{
+		user = await getUser(accessToken);
+	} catch(e){
+		vscode.window.showErrorMessage("Failed to connect to the server")
+	}
 
 	if(user){
 		let loginSentence: string = getLoginSentence(user);

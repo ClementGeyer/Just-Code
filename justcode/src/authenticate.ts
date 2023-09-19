@@ -54,11 +54,11 @@ export async function authenticate() {
 export function getLoginSentence(user: User){
   let loginSentence: string = "";
 		if(user.freeTrial > 0){
-			loginSentence = "You are logged in as: " + user?.name + "\n You have " + user.freeTrial + " days remaining on your free trial"
+			loginSentence = "You are logged in as: " + user?.name + "! You have " + user.freeTrial + " days remaining on your free trial"
 		}else if(user.premium){
-			loginSentence = "You are logged in as: " + user?.name + "\n Pro plan is activated"
+			loginSentence = "You are logged in as: " + user?.name + "! Pro plan is activated"
 		}else{
-			loginSentence = "You are logged in as: " + user?.name
+			loginSentence = "You are logged in as: " + user?.name + "!"
 		}
   return loginSentence
 }
