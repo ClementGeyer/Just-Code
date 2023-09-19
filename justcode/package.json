@@ -27,6 +27,14 @@
         "command": "justcode.logout",
         "title": "Logout"
       }
+    ],
+    "keybindings": [
+      {
+        "command": "justcode.docStringComment",
+        "key": "ctrl+alt+d",
+        "mac": "cmd+alt+d'",
+        "when": "editorTextFocus"
+      }
     ]
   },
   "scripts": {
