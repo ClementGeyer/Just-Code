@@ -91,7 +91,7 @@ export async function insertDocstringComment() {
       let firstLineRaw = lastChildText.split('\n')[0];
       let hook = isHook(firstLineRaw);
       //is a JSX component
-      if(lastChild.start.line === functionRange.start.line && lastChild.end.line === functionRange.end.line){
+      if(lastChild.start.line === functionRange.start.line && lastChild.end.line === functionRange.end.line && editor.document.languageId === "javascriptreact"){
         docStringComment = await generateJSDocstringCommentJSXComponent(lastChildText);
       } else{
         if(hook){
