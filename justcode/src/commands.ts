@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { generateJSDocstringComment, generateJSDocstringCommentReactHooks } from "./api";
+import { generateJSDocstringComment, generateJSDocstringCommentReactHooks, generateJSDocstringCommentJSXComponent } from "./api";
 import { parse } from '@babel/parser';
 import traverse, { NodePath } from '@babel/traverse';
 import * as t from '@babel/types';
@@ -90,10 +90,15 @@ export async function insertDocstringComment() {
       lastChildText = editor.document.getText(lastChildRange);
       let firstLineRaw = lastChildText.split('\n')[0];
       let hook = isHook(firstLineRaw);
-      if(hook){
-        docStringComment = await generateJSDocstringCommentReactHooks(lastChildText);
-      }else {
-        docStringComment = await generateJSDocstringComment(lastChildText);
+      //is a JSX component
+      if(lastChild.start.line === functionRange.start.line && lastChild.end.line === functionRange.end.line){
+        docStringComment = await generateJSDocstringCommentJSXComponent(lastChildText);
+      } else{
+        if(hook){
+          docStringComment = await generateJSDocstringCommentReactHooks(lastChildText);
+        }else {
+          docStringComment = await generateJSDocstringComment(lastChildText);
+        }
       }
     } else {
       let range = new vscode.Selection(functionRange?.start, functionRange?.end)
