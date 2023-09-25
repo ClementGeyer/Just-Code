@@ -53,12 +53,20 @@ export async function authenticate() {
 
 export function getLoginSentence(user: User){
   let loginSentence: string = "";
-		if(user.freeTrial > 0){
-			loginSentence = "You are logged in as: " + user?.name + "! You have " + user.freeTrial + " days remaining on your free trial"
+		if(freeTrialsDaysLeft(user.freeTrial) > 0){
+			loginSentence = "You are logged in as: " + user?.name + "! You have " + freeTrialsDaysLeft(user.freeTrial) + " days remaining on your free trial"
 		}else if(user.premium){
 			loginSentence = "You are logged in as: " + user?.name + "! Pro plan is activated"
 		}else{
 			loginSentence = "You are logged in as: " + user?.name + "!"
 		}
   return loginSentence
+}
+
+function freeTrialsDaysLeft(startDate: Date) {
+  const currentDate = new Date();
+  const startDateFormat = new Date(startDate);
+  const diffTime = currentDate.valueOf() - startDateFormat.valueOf();
+  const diffDays = Math.ceil(diffTime / (1000 * 3600 * 24)); 
+  return 16 - diffDays
 }

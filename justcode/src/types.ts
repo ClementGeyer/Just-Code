@@ -4,5 +4,5 @@ export type User = {
     premium: Boolean,
     githubId: String,
     accessToken: String,
-    freeTrial: number,
+    freeTrial: Date,
 };
