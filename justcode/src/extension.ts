@@ -3,7 +3,7 @@
 import * as vscode from 'vscode';
 import { contextProvider } from './provider';
 import { insertDocstringComment } from './commands';
-import { authenticate, getLoginSentence } from './authenticate';
+import { authenticate, getLoginSentence, isShowWebsitePricing } from './authenticate';
 import { TokenManager } from "./TokenManager";
 import type { User } from "./types";
 import { getUser } from "./api";
@@ -26,13 +26,30 @@ export async function activate(context: vscode.ExtensionContext) {
 
 	if(user){
 		let loginSentence: string = getLoginSentence(user);
-		vscode.window.showInformationMessage(loginSentence, 'Logout').then(async selected => {
-			if(selected === "Logout"){
-				TokenManager.setToken("")
-				vscode.window.showInformationMessage('You are logged out');
-				user = null;
-			}
-		});
+		let showWebsitePricing: boolean = isShowWebsitePricing(user);
+		console.log(showWebsitePricing)
+		if(showWebsitePricing){
+			vscode.window.showInformationMessage(loginSentence, ...["Purchase premium", "Logout"]).then(selected => {
+				if(selected === "Logout"){
+					TokenManager.setToken("")
+					vscode.window.showInformationMessage('You are logged out');
+					user = null;
+				}else if(selected === "Purchase premium"){
+					vscode.commands.executeCommand(
+						"vscode.open",
+						vscode.Uri.parse(`http://localhost:3000/pricing`)
+					);
+				}
+			});
+		} else {
+			vscode.window.showInformationMessage(loginSentence, 'Logout').then(selected => {
+				if(selected === "Logout"){
+					TokenManager.setToken("")
+					vscode.window.showInformationMessage('You are logged out');
+					user = null;
+				}
+			});
+		}
 	} else {
 		vscode.window.showInformationMessage("Please log in with GitHub in order to use JustCode Pro", "Authenticate").then(async selected => {
 			if(selected === "Authenticate"){

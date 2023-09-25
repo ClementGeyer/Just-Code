@@ -21,7 +21,7 @@ export async function authenticate() {
 
     let user: User | null = null;
 
-    const response = await fetch(`${apiBaseUrl}/me`, {
+    const response = await fetch(`${localhostBaseUrl}/me`, {
       headers: {
         authorization: `Bearer ${token}`,
       },
@@ -31,7 +31,17 @@ export async function authenticate() {
 
     if(user){
       let loginSentence: string = getLoginSentence(user);
-      vscode.window.showInformationMessage(loginSentence);
+      let showWebsitePricing: boolean = isShowWebsitePricing(user);
+      if(showWebsitePricing){
+        vscode.window.showInformationMessage(loginSentence, ...["Purchase premium"]).then(() => {
+          vscode.commands.executeCommand(
+            "vscode.open",
+            vscode.Uri.parse(`http://localhost:3000/pricing`)
+          );
+        });
+      } else {
+        vscode.window.showInformationMessage(loginSentence);
+      }
     } else {
       vscode.window.showErrorMessage("Failed to authenticate");
     }
@@ -45,7 +55,7 @@ export async function authenticate() {
     } else {
       vscode.commands.executeCommand(
         "vscode.open",
-        vscode.Uri.parse(`${apiBaseUrl}/auth/github`)
+        vscode.Uri.parse(`${localhostBaseUrl}/auth/github`)
       );
     }
   });
@@ -53,14 +63,23 @@ export async function authenticate() {
 
 export function getLoginSentence(user: User){
   let loginSentence: string = "";
-		if(freeTrialsDaysLeft(user.freeTrial) > 0){
-			loginSentence = "You are logged in as: " + user?.name + "! You have " + freeTrialsDaysLeft(user.freeTrial) + " days remaining on your free trial"
-		}else if(user.premium){
-			loginSentence = "You are logged in as: " + user?.name + "! Pro plan is activated"
-		}else{
-			loginSentence = "You are logged in as: " + user?.name + "!"
-		}
+  if(freeTrialsDaysLeft(user.freeTrial) > 13){
+    loginSentence = "You are logged in as: " + user?.name + "! You have " + freeTrialsDaysLeft(user.freeTrial) + " days remaining on your free trial"
+  }else if(user.premium){
+    loginSentence = "You are logged in as: " + user?.name + "! Pro plan is activated"
+  }else{
+    loginSentence = "You are logged in as: " + user?.name;
+  }
   return loginSentence
+}
+
+export function isShowWebsitePricing(user: User){
+  let isNotPremium = false;
+  console.log(freeTrialsDaysLeft(user.freeTrial), user.premium)
+  if(freeTrialsDaysLeft(user.freeTrial) <= 13 && !user.premium){
+    isNotPremium = true
+  }
+  return isNotPremium
 }
 
 function freeTrialsDaysLeft(startDate: Date) {
