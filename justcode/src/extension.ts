@@ -1,7 +1,7 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
-import { contextProvider } from './provider';
+import { singleLineProvider } from './provider';
 import { insertDocstringComment } from './commands';
 import { authenticate, getLoginSentence, isShowWebsitePricing } from './authenticate';
 import { TokenManager } from "./TokenManager";
@@ -96,7 +96,7 @@ export async function activate(context: vscode.ExtensionContext) {
 		insertDocstringComment
 	);
 
-	context.subscriptions.push(docstringCommand, contextProvider, login, logout)
+	context.subscriptions.push(docstringCommand, singleLineProvider, login, logout)
 }
 
 // This method is called when your extension is deactivated
