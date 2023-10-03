@@ -5,6 +5,7 @@ export const singleLineProvider = vscode.languages.registerCompletionItemProvide
     [
       { language: "javascript" },
       { language: "typescript" },
+      { language: "javascriptreact" },
     ],
     {
         async provideCompletionItems(
