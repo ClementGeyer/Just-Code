@@ -5,4 +5,9 @@ export type User = {
     githubId: String,
     accessToken: String,
     freeTrial: Date,
+    subscriptionID: String,
+    subscriptionStatus: String,
+    subscriptionPlan: String,
+    customerID: String,
+    lastPaymentDate: Date,
 };
