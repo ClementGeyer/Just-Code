@@ -21,7 +21,7 @@ export async function authenticate() {
 
     let user: User | null = null;
 
-    const response = await fetch(`${localhostBaseUrl}/me`, {
+    const response = await fetch(`${apiBaseUrl}/me`, {
       headers: {
         authorization: `Bearer ${token}`,
       },
@@ -36,7 +36,7 @@ export async function authenticate() {
         vscode.window.showInformationMessage(loginSentence, ...["Purchase premium"]).then(() => {
           vscode.commands.executeCommand(
             "vscode.open",
-            vscode.Uri.parse(`http://localhost:3000/pricing`)
+            vscode.Uri.parse(apiBaseUrl + "/pricing")
           );
         });
       } else {
@@ -55,7 +55,7 @@ export async function authenticate() {
     } else {
       vscode.commands.executeCommand(
         "vscode.open",
-        vscode.Uri.parse(`${localhostBaseUrl}/auth/github`)
+        vscode.Uri.parse(`${apiBaseUrl}/auth/github`)
       );
     }
   });
@@ -63,7 +63,8 @@ export async function authenticate() {
 
 export function getLoginSentence(user: User){
   let loginSentence: string = "";
-  if(freeTrialsDaysLeft(user.freeTrial) > 0){
+  console.log(user)
+  if(freeTrialsDaysLeft(user.freeTrial) > 0 && user.subscriptionStatus !== "paid"){
     loginSentence = "You are logged in as: " + user?.name + "! You have " + freeTrialsDaysLeft(user.freeTrial) + " days remaining on your free trial"
   }else if(user.premium){
     loginSentence = "You are logged in as: " + user?.name + "! Pro plan is activated"

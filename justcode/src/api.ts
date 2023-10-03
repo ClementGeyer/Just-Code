@@ -10,7 +10,7 @@ export const generateSingleLineShortComment = async (
   code: string
   ) => {
     try {
-      const { data } = await axios.post(`${localhostBaseUrl}/generateSingleLineComment`, { 
+      const { data } = await axios.post(`${apiBaseUrl}/generateSingleLineComment`, { 
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
           'authorization': `Bearer ${TokenManager.getToken()}`,
@@ -35,7 +35,7 @@ export const generateJSDocstringComment = async (
   context: string,
 ) => {
   try {
-    const { data } = await axios.post(`${localhostBaseUrl}/generateJSDocstringComment`, { 
+    const { data } = await axios.post(`${apiBaseUrl}/generateJSDocstringComment`, { 
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
         'authorization': `Bearer ${TokenManager.getToken()}`,
@@ -75,7 +75,7 @@ export const generateJSDocstringCommentReactHooks = async (
   context: string,
 ) => {
   try {
-    const { data } = await axios.post(`${localhostBaseUrl}/generateJSDocstringCommentReactHooks`, {
+    const { data } = await axios.post(`${apiBaseUrl}/generateJSDocstringCommentReactHooks`, {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
         'authorization': `Bearer ${TokenManager.getToken()}`,
@@ -115,7 +115,7 @@ export const generateJSDocstringCommentJSXComponent = async (
   context: string,
 ) => {
   try {
-    const { data } = await axios.post(`${localhostBaseUrl}/generateJSDocstringCommentJSXComponent`, {
+    const { data } = await axios.post(`${apiBaseUrl}/generateJSDocstringCommentJSXComponent`, {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
         'authorization': `Bearer ${TokenManager.getToken()}`,
@@ -152,7 +152,7 @@ export const generateJSDocstringCommentJSXComponent = async (
 };
 
 export const getUser = async (accessToken: string) => {
-  const response = await fetch(`${localhostBaseUrl}/me`, {
+  const response = await fetch(`${apiBaseUrl}/me`, {
     headers: {
         authorization: `Bearer ${accessToken}`,
     },

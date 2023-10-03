@@ -7,6 +7,7 @@ import { authenticate, getLoginSentence, isShowWebsitePricing } from './authenti
 import { TokenManager } from "./TokenManager";
 import type { User } from "./types";
 import { getUser } from "./api";
+import { apiBaseUrl } from './const';
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -37,7 +38,7 @@ export async function activate(context: vscode.ExtensionContext) {
 				}else if(selected === "Purchase premium"){
 					vscode.commands.executeCommand(
 						"vscode.open",
-						vscode.Uri.parse(`http://localhost:3000/pricing`)
+						vscode.Uri.parse(apiBaseUrl + "/pricing")
 					);
 				}
 			});
