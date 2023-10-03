@@ -4,7 +4,6 @@ import axiosRetry from "axios-retry";
 import { apiBaseUrl, localhostBaseUrl } from "./const";
 import { TokenManager } from "./TokenManager";
 import fetch from 'node-fetch';
-import { User } from "./types";
 
 export const generateSingleLineShortComment = async (
   code: string
