@@ -30,7 +30,7 @@ export async function insertDocstringComment() {
   const code = editor.document.getText();
   const ast = parse(code, {
     sourceType: 'module',
-    plugins: ['jsx'],
+    plugins: ["jsx", "typescript"],
     // loc: true,
   });
 
