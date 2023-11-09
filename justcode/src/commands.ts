@@ -66,6 +66,20 @@ export async function insertDocstringComment() {
         path.stop();
       }
     },
+    FunctionExpression(path){
+      console.log("func expression", path)
+      const node = path.node as t.FunctionExpression;
+      const { loc } = node;
+      if (loc && loc.start.line <= position && loc.end.line >= position) {
+        //TODO: make a docstring better
+        docstring = `/**\n * Function Expression\n * @returns {void}\n */`;
+        functionRange = new vscode.Range(
+          new vscode.Position(loc.start.line - 1, 0), // Adjust for 0-indexing
+          new vscode.Position(loc.end.line, 0)
+        );
+        path.stop();
+      }
+    },
   });
 
   if (!docstring) {
@@ -152,6 +166,12 @@ function getFunctionDeclarationLine(ast: t.File, position: vscode.Position): num
         lineNumber = arrowNode.loc.start.line
       }
     },
+    FunctionExpression(path) {
+      const fnNode = path.node as t.FunctionExpression;
+      if (fnNode.loc && fnNode.loc.start.line <= position.line + 1 && fnNode.loc.end.line >= position.line) {
+        lineNumber = fnNode.loc.start.line
+      }
+    },
   });
 
   return lineNumber;
@@ -182,6 +202,15 @@ function findLastChildFunction(node: t.Node, position: vscode.Position): { start
         innermostFunction = {
           start: new vscode.Position(arrowNode.loc.start.line - 1, 0), // Adjust for 0-indexing
           end: new vscode.Position(arrowNode.loc.end.line, 0),
+        };
+      }
+    },
+    FunctionExpression(path) {
+      const fnNode = path.node as t.FunctionExpression;
+      if (fnNode.loc && fnNode.loc.start.line <= position.line + 1 && fnNode.loc.end.line >= position.line + 1) {
+        innermostFunction = {
+          start: new vscode.Position(fnNode.loc.start.line - 1, 0), // Adjust for 0-indexing
+          end: new vscode.Position(fnNode.loc.end.line, 0),
         };
       }
     },
