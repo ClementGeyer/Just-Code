@@ -19,7 +19,7 @@ This first feature is able to generate a detailed explanation of the line below.
 To activate this feature, you only need to type '// ' and the extension will take the context
 and generate the comment.
 
-![Single line comment demo](https://github.com/ClementGeyer/Just-Code/assets/56132649/dd3ea42b-dffd-41d5-ab4b-ffa6fb89e62c)
+https://github.com/ClementGeyer/Just-Code/assets/56132649/dd3ea42b-dffd-41d5-ab4b-ffa6fb89e62c
 
 ### Generate doscstring comment
 
@@ -27,14 +27,14 @@ The premium feature is a able to do a lot more than that; by executing the comma
 your cursor is in, will be fully documented with JSDoc compatible docstring comments, enabling you to generate a full
 documentation for your project in about 5 minutes!
 
-![Docstring comment demo](https://github.com/ClementGeyer/Just-Code/assets/56132649/2742b94d-1627-4416-b491-df1ed5d39ead)
+https://github.com/ClementGeyer/Just-Code/assets/56132649/2742b94d-1627-4416-b491-df1ed5d39ead
 
 ## Handles JSDoc 
 
 After commenting your whole project file by file, you can install JsDoc and have a website full of documentation
 for your project!
 
-![JSDoc demo](https://github.com/ClementGeyer/Just-Code/assets/56132649/ad8e60c6-e0e3-48a7-a5ad-217483eda0f3)
+https://github.com/ClementGeyer/Just-Code/assets/56132649/ad8e60c6-e0e3-48a7-a5ad-217483eda0f3
 
 ## Compatible languages
 
