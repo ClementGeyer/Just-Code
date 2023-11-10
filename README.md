@@ -19,7 +19,7 @@ This first feature is able to generate a detailed explanation of the line below.
 To activate this feature, you only need to type '// ' and the extension will take the context
 and generate the comment.
 
-![Single line comment demo](<video src="media/single_line_demo.mp4" controls title="Title"></video>)
+![Single line comment demo](https://github.com/ClementGeyer/Just-Code/assets/56132649/dd3ea42b-dffd-41d5-ab4b-ffa6fb89e62c)
 
 ### Generate doscstring comment
 
@@ -27,28 +27,19 @@ The premium feature is a able to do a lot more than that; by executing the comma
 your cursor is in, will be fully documented with JSDoc compatible docstring comments, enabling you to generate a full
 documentation for your project in about 5 minutes!
 
-![Docstring comment demo](./media/main_demo.mp4)
-
-## Handles ReactJS type functions
-
-This extension is focused on JavaScript for the moment even tought more languages will be supported
-in the future.
-Still, it can handle ReactJS structure and specific functions like showed on the video below.
-
-![React handle demo](./media/reacthooks_demo.mp4)
+![Docstring comment demo](https://github.com/ClementGeyer/Just-Code/assets/56132649/2742b94d-1627-4416-b491-df1ed5d39ead)
 
 ## Handles JSDoc 
 
 After commenting your whole project file by file, you can install JsDoc and have a website full of documentation
 for your project!
 
-![JSDoc demo](./media/jsdoc_demo.mp4)
+![JSDoc demo](https://github.com/ClementGeyer/Just-Code/assets/56132649/ad8e60c6-e0e3-48a7-a5ad-217483eda0f3)
 
 ## Compatible languages
 
-- JavaScript
+- JavaScript (and frameworks)
 - TypeScript
-- ReactJS
 
 ## Pricing
 
@@ -57,7 +48,7 @@ with both single line comment and docstring comment features.
 
 More details at : https://justcodeai.com/pricing
 
-15 days of free trial are also available if you go to your dashboard at : https://justcodeai.com/dashboard
+15 days of free trial are also available at account creation
 
 ## Set up
 
