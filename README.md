@@ -19,7 +19,7 @@ This first feature is able to generate a detailed explanation of the line below.
 To activate this feature, you only need to type '// ' and the extension will take the context
 and generate the comment.
 
-![Single line comment demo](https://res.cloudinary.com/dmrglssqn/video/upload/f_auto:video,q_auto/qrx6wfo6drp2ycceccmb)
+![Single line comment demo](<video src="media/single_line_demo.mp4" controls title="Title"></video>)
 
 ### Generate doscstring comment
 
