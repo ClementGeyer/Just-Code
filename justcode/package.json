@@ -1,8 +1,10 @@
 {
-  "name": "justcode",
+  "name": "justcodeai",
   "displayName": "JustCode",
   "description": "",
-  "version": "0.0.1",
+  "version": "1.0.2",
+  "publisher": "CGEDev",
+  "icon": "media/icon.png",
   "engines": {
     "vscode": "^1.79.0"
   },
@@ -64,7 +66,8 @@
     "ts-loader": "^9.4.3",
     "typescript": "^5.1.6",
     "webpack": "^5.85.0",
-    "webpack-cli": "^5.1.1"
+    "webpack-cli": "^5.1.1",
+    "vscode": "^1.1.37"
   },
   "dependencies": {
     "@babel/parser": "^7.22.7",
@@ -72,7 +75,6 @@
     "axios": "^1.4.0",
     "axios-retry": "^3.5.1",
     "node-fetch": "^3.3.2",
-    "polka": "^0.5.2",
-    "vscode": "^1.1.37"
+    "polka": "^0.5.2"
   }
 }

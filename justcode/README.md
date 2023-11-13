@@ -1,71 +1,67 @@
-# justcode README
+# Just Code
+## The only VSCode commenting tool you'll ever need
 
-This is the README for your extension "justcode". After writing up a brief description, we recommend including the following sections.
+JustCode is an AI-powered VSCode code commenting tool for vanilla JavaScript and ReactJS projects.
+It can generate JSDoc compatible comments.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+Currently, this extension offers two features, one free and one premium.
+More features will be coming regularly.
 
-For example if there is an image subfolder under your extension project workspace:
+### Generate single line comment
 
-\!\[feature X\]\(images/feature-x.png\)
+This first feature is able to generate a detailed explanation of the line below.
+To activate this feature, you only need to type '// ' and the extension will take the context
+and generate the comment.
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+![single line comment demo](https://github.com/ClementGeyer/Just-Code/blob/c229eabd1e26b095983118fc86d849f01ce635b4/media/single_line_demo.gif)
 
-## Requirements
+### Generate doscstring comment
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+The premium feature is a able to do a lot more than that; by executing the command 'cmd+alt+d', the current function
+your cursor is in, will be fully documented with JSDoc compatible docstring comments, enabling you to generate a full
+documentation for your project in about 5 minutes!
 
-## Extension Settings
+![docstring comment demo](https://github.com/ClementGeyer/Just-Code/blob/c229eabd1e26b095983118fc86d849f01ce635b4/media/docstring_demo.gif)
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+## Handles JSDoc 
 
-For example:
+After commenting your whole project file by file, you can install JsDoc and have a website full of documentation
+for your project!
 
-This extension contributes the following settings:
+![jsdoc demo](https://github.com/ClementGeyer/Just-Code/blob/c229eabd1e26b095983118fc86d849f01ce635b4/media/jsdoc_demo.gif)
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+## Compatible languages
 
-## Known Issues
+- JavaScript (and frameworks)
+- TypeScript
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+## Pricing
 
-## Release Notes
+Two options are available for this extension, a free plan with the single line comment feature and a premium plan
+with both single line comment and docstring comment features.
 
-Users appreciate release notes as you update your extension.
+More details at : https://justcodeai.com/pricing
 
-### 1.0.0
+15 days of free trial are also available at account creation
 
-Initial release of ...
+## Set up
 
-### 1.0.1
+To install the extension, download it from the VSCode extension marketplace and then login through GitHub
+directly on your IDE, to enable Premium Plan, you need to go on the website: https://justcodeai.com/pricing
 
-Fixed issue #.
+## Policy
 
-### 1.1.0
+Just Code engages not to retain any single information related to your code.
 
-Added features X, Y, and Z.
+## Contact
 
----
+Feel free to contact me at : cge.devpro@gmail.com for any questions
 
-## Following extension guidelines
+## Version
 
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
+[1.0.0] Release version
 
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+- Generate Single Line Comment 
+- Generate Docstring Comment
