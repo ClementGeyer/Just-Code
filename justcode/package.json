@@ -34,7 +34,7 @@
       {
         "command": "justcode.docStringComment",
         "key": "ctrl+alt+d",
-        "mac": "cmd+alt+d'",
+        "mac": "ctrl+alt+d",
         "when": "editorTextFocus"
       }
     ]
