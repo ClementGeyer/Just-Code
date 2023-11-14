@@ -15,7 +15,7 @@ This first feature is able to generate a detailed explanation of the line below.
 To activate this feature, you only need to type '// ' and the extension will take the context
 and generate the comment.
 
-![single line comment demo](https://github.com/ClementGeyer/Just-Code/blob/c229eabd1e26b095983118fc86d849f01ce635b4/media/single_line_demo.gif)
+![single line comment demo](https://raw.githubusercontent.com/ClementGeyer/Just-Code/c229eabd1e26b095983118fc86d849f01ce635b4/media/single_line_demo.gif)
 
 ### Generate doscstring comment
 
@@ -23,14 +23,14 @@ The premium feature is a able to do a lot more than that; by executing the comma
 your cursor is in, will be fully documented with JSDoc compatible docstring comments, enabling you to generate a full
 documentation for your project in about 5 minutes!
 
-![docstring comment demo](https://github.com/ClementGeyer/Just-Code/blob/c229eabd1e26b095983118fc86d849f01ce635b4/media/docstring_demo.gif)
+![docstring comment demo](https://raw.githubusercontent.com/ClementGeyer/Just-Code/c229eabd1e26b095983118fc86d849f01ce635b4/media/docstring_demo.gif)
 
 ## Handles JSDoc 
 
 After commenting your whole project file by file, you can install JsDoc and have a website full of documentation
 for your project!
 
-![jsdoc demo](https://github.com/ClementGeyer/Just-Code/blob/c229eabd1e26b095983118fc86d849f01ce635b4/media/jsdoc_demo.gif)
+![jsdoc demo](https://raw.githubusercontent.com/ClementGeyer/Just-Code/c229eabd1e26b095983118fc86d849f01ce635b4/media/jsdoc_demo.gif)
 
 ## Compatible languages
 
@@ -53,7 +53,7 @@ directly on your IDE, to enable Premium Plan, you need to go on the website: htt
 
 ## Policy
 
-Just Code engages not to retain any single information related to your code.
+Just Code engages not to retain any information related to your code.
 
 ## Contact
 
