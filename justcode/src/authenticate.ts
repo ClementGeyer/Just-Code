@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { apiBaseUrl, localhostBaseUrl } from "./const";
+import { apiBaseUrl, websiteBaseUrl } from "./const";
 import * as polka from "polka";
 import { TokenManager } from "./TokenManager";
 import type { User } from "./types";
@@ -36,7 +36,7 @@ export async function authenticate() {
         vscode.window.showInformationMessage(loginSentence, ...["Purchase premium"]).then(() => {
           vscode.commands.executeCommand(
             "vscode.open",
-            vscode.Uri.parse(apiBaseUrl + "/pricing")
+            vscode.Uri.parse(websiteBaseUrl + "/pricing")
           );
         });
       } else {
