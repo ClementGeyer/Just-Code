@@ -1,15 +1,38 @@
 {
   "name": "justcodeai",
   "displayName": "JustCode",
-  "description": "",
-  "version": "1.0.2",
+  "description": "Enhance your code documentation with JustCode, the must-have VSCode commenting tool for JavaScript projects!",
+  "version": "1.0.7",
   "publisher": "CGEDev",
   "icon": "media/icon.png",
   "engines": {
     "vscode": "^1.79.0"
   },
   "categories": [
-    "Other"
+    "Programming Languages",
+    "Snippets"
+  ],
+  "keywords": [
+    "vscode",
+    "extension",
+    "documentation",
+    "JSDoc",
+    "ESDoc",
+    "ReactJS",
+    "NextJS",
+    "JavaScript",
+    "AI",
+    "docstring",
+    "comment",
+    "comments",
+    "completion",
+    "completions",
+    "keybindings",
+    "snippet",
+    "snippets",
+    "typescript",
+    "function completion",
+    "method completion"
   ],
   "activationEvents": [
     "onStartupFinished"

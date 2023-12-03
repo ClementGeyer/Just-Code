@@ -1,67 +1,56 @@
 # Just Code
-## The only VSCode commenting tool you'll ever need
-
-JustCode is an AI-powered VSCode code commenting tool for vanilla JavaScript and ReactJS projects.
-It can generate JSDoc compatible comments.
+## The Ultimate JavaScript Commenting Tool
+Welcome to JustCode, the AI-powered VSCode code commenting tool designed to elevate your JavaScript projects. With support for generating JSDoc-compatible comments, JustCode is your go-to solution for efficient and accurate code documentation.
 
 ## Features
+Discover the power of JustCode througout our two features, available in both free and premium plans, with more exciting updates on the way.
 
-Currently, this extension offers two features, one free and one premium.
-More features will be coming regularly.
-
-### Generate single line comment
-
-This first feature is able to generate a detailed explanation of the line below.
-To activate this feature, you only need to type '// ' and the extension will take the context
-and generate the comment.
+### Basic: Generate Single Line Comments
+Activate this feature effortlessly by typing '// ' and let JustCode do the rest. It interprets the context and generates a detailed explanation for the line below.
 
 ![single line comment demo](https://raw.githubusercontent.com/ClementGeyer/Just-Code/c229eabd1e26b095983118fc86d849f01ce635b4/media/single_line_demo.gif)
 
-### Generate doscstring comment
-
-The premium feature is a able to do a lot more than that; by executing the command 'cmd+alt+d', the current function
-your cursor is in, will be fully documented with JSDoc compatible docstring comments, enabling you to generate a full
-documentation for your project in about 5 minutes!
+### Premium: Generate doscstring comment
+Unlock a world of possibilities with our premium feature. Execute 'cmd+alt+d', and JustCode will fully document the current function with JSDoc-compatible docstring comments. In just 5 minutes, you can generate a comprehensive documentation for your entire project!
 
 ![docstring comment demo](https://raw.githubusercontent.com/ClementGeyer/Just-Code/c229eabd1e26b095983118fc86d849f01ce635b4/media/docstring_demo.gif)
 
-## Handles JSDoc 
-
-After commenting your whole project file by file, you can install JsDoc and have a website full of documentation
-for your project!
+## JSDoc Compatibility
+Handle your JSDoc documentation seamlessly. After commenting your entire project file by file, install JsDoc and transform your code documentation into a detailed website.
 
 ![jsdoc demo](https://raw.githubusercontent.com/ClementGeyer/Just-Code/c229eabd1e26b095983118fc86d849f01ce635b4/media/jsdoc_demo.gif)
 
-## Compatible languages
+## Supported languages
 
-- JavaScript (and frameworks)
+- JavaScript (all frameworks)
 - TypeScript
 
 ## Pricing
+Choose the plan that suits you best:
 
-Two options are available for this extension, a free plan with the single line comment feature and a premium plan
-with both single line comment and docstring comment features.
+Free Plan: Single line comment feature
+Premium Plan: Includes both single line comment and docstring comment features.
 
-More details at : https://justcodeai.com/pricing
-
-15 days of free trial are also available at account creation
+Learn more about our pricing plans at justcodeai.com/pricing
+Enjoy a 15-day free trial upon account creation!
 
 ## Set up
+Getting started is easy:
 
-To install the extension, download it from the VSCode extension marketplace and then login through GitHub
-directly on your IDE, to enable Premium Plan, you need to go on the website: https://justcodeai.com/pricing
+Download the extension from the VSCode Extension Marketplace.
+Log in through GitHub directly in your IDE.
+To enable the Premium Plan, visit justcodeai.com/pricing
 
 ## Policy
-
-Just Code engages not to retain any information related to your code.
+Rest assured, Just Code commits to not retaining any information related to your code.
 
 ## Contact
-
-Feel free to contact me at : cge.devpro@gmail.com for any questions
+For any questions or inquiries, feel free to contact us at cge.devpro@gmail.com.
 
 ## Version
 
-[1.0.0] Release version
+[1.0.7] Release version
 
-- Generate Single Line Comment 
-- Generate Docstring Comment
+- Updated basic&premium features
+
+Elevate your coding experience with JustCode, the ultimate VSCode commenting tool!
