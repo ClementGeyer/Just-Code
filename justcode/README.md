@@ -1,5 +1,5 @@
 # Just Code
-## The Ultimate JavaScript Commenting Tool
+## Your Intelligent JavaScript Commenting Tool
 Welcome to JustCode, the AI-powered VSCode code commenting tool designed to elevate your JavaScript projects. With support for generating JSDoc-compatible comments, JustCode is your go-to solution for efficient and accurate code documentation.
 
 ## Features
