@@ -108,6 +108,7 @@ export async function insertDocstringComment() {
 
     // Handles ReactJS files, even if not .jsx
     const lastChild = findLastChildFunction(ast, editor.selection.active)
+    let isJSXComp = false;
 
     // Perform custom selection to highlight the function range
     if(lastChild) {
@@ -120,6 +121,7 @@ export async function insertDocstringComment() {
       console.log(editor.document.languageId)
       if(lastChild.start.line === functionRange.start.line && lastChild.end.line === functionRange.end.line && (editor.document.languageId === "javascriptreact" || editor.document.languageId === "typescriptreact")){
         docStringComment = await generateJSDocstringCommentJSXComponent(lastChildText);
+        isJSXComp = true;
       } else{
         if(hook){
           docStringComment = await generateJSDocstringCommentReactHooks(lastChildText);
@@ -153,7 +155,7 @@ export async function insertDocstringComment() {
             .join('\n');
           
           console.log(functionName)
-          if(functionName === "classD") editBuilder.replace(editor.selection, indentedComment + '\n');
+          if(functionName === "classD" && !isJSXComp) editBuilder.replace(editor.selection, indentedComment + '\n');
           else editBuilder.insert(new vscode.Position(declarationLine - 1, 0), indentedComment + '\n');
         }
           
