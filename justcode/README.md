@@ -51,6 +51,6 @@ For any questions or inquiries, feel free to contact us at cge.devpro@gmail.com.
 
 [1.0.7] Release version
 
-- Updated basic&premium features
+- Docstring command: Handle JavaScript class declarations
 
 Elevate your coding experience with JustCode, the ultimate VSCode commenting tool!

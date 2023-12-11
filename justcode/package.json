@@ -2,7 +2,7 @@
   "name": "justcodeai",
   "displayName": "JustCode",
   "description": "Enhance your code documentation with JustCode, the must-have VSCode commenting tool for JavaScript projects!",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "publisher": "CGEDev",
   "icon": "media/icon.png",
   "engines": {
